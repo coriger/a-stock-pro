@@ -7,7 +7,7 @@ const service = axios.create({
     // 基础 URL
     baseURL: 'http://localhost:8080',
     // 超时时间
-    timeout: 5000,
+    timeout: 10000,
 });
 
 // 请求拦截器

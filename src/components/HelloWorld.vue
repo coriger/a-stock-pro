@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import * as stockAPI from '../api/stock';
+import { mainStore } from '../store/store';
 
 // 定义一个 Stock
 interface Stock {
@@ -16,6 +17,7 @@ interface Stock {
     };
 }
 
+const store = mainStore();
 const stocks = ref<Stock[]>([]); // 定义一个响应式引用来存储股票数据
 
 async function fetchStocks() {
@@ -35,14 +37,13 @@ onMounted(fetchStocks);
 
 <template>
     <div>
+        <h1>{{ store.name }}</h1>
         <!-- <button @click="fetchStocks">获取数据</button> -->
         <div v-for="stock in stocks" :key="stock.id">
             {{ stock.id }}-{{ stock.name }}-{{ stock.phone }}
-    </div>
+        </div>
     </div>
     <router-link to="/">Go to Home</router-link>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

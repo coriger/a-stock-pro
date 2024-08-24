@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>左右布局页面</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            box-sizing: border-box; /* 包括内边距和边框在内的总宽度 */
+        }
+
+        .container{
+            display: flex;
+            height: 100vh;
+            min-width: 650px;
+        }
+
+        .sidebar {
+            width: 220px; /* 设置左侧导航条宽度 */
+            background-color:  #ffffff; /* 设置背景颜色 */
+            color: #000000; /* 设置文字颜色 */
+        }
+
+        .sidebar.collapsed {
+            width: 60px; /* 缩小后的宽度 */
+        }
+
+        .sidebar.collapsed span {
+            display: none;
+        }
+
+        .sidebar.collapsed li{
+            padding: 0px 20px;
+        }
+
+        .sidebar.collapsed .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar.collapsed .menu-item .text {
+            display: none; /* 隐藏文本 */
+        }
+
+        .sidebar-logo{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 27px;
+            margin: 24px 66px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .sidebar-logo-title1{
+            color: #004cff;
+        }
+        
+        .sidebar-menu ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .sidebar-menu ul li{
+            display: flex;
+            height: 50px;
+            padding: 0px 40px;
+        }
+
+        .sidebar-menu ul li:hover{
+            background-color:#3758ada8;
+        }
+
+        .sidebar-menu ul li a{
+            display: flex;
+            text-decoration: none; /* 去掉下划线 */
+            color: inherit; /* 继承父元素的文字颜色 */
+            align-items: center;
+        }
+
+        .sidebar-menu ul li a i{
+            width:18px;
+            height: 18px;
+        }
+
+        .sidebar-menu ul li a span{
+            margin-left: 16px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .sidebar-divider{
+            width: 100%;
+            height: 1px;
+            background-color: #E0E0E0;
+            margin: 16.5px 0px;
+        }
+
+        .sidebar-title{
+            margin-top: 16.5px;
+            margin-left:40px;
+            font-size: 12px;
+            color: #202224;
+            font-weight: bold;
+        }
+
+        .main{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex:1;
+        }
+
+        .top-navbar{
+            display: flex;
+            align-items: center;
+            justify-content:space-between;
+            height: 70px;
+            padding: 0px 30px;
+        }
+        
+        .left-section{
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .menu-icon{
+            width: 14px;
+            height: 16px;
+            margin-right: 24px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .search-bar input{
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            width: 388px;
+            height: 28px;
+        }
+
+        .right-section{
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .notify{
+            position: relative;
+            margin-right: 26px;
+        }
+
+        .notify i {
+            font-size: 20px;
+        }
+
+        .notify span {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 10px;
+        }
+
+        .language{
+            display: flex;
+            margin-right: 26px;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .language img {
+            width: 24px;
+            height: 16px;
+            margin-right: 5px;
+        }
+
+        .language i {
+            margin-left: 5px;
+        }
+
+        .profile{
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-name{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-username{
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .profile-role{
+            font-size: 12px;
+        }
+
+        .profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .profile i {
+            margin-left: 5px;
+        }
+
+        .content{
+            flex: 1;
+            margin-top:20px;
+            margin:0px 30px;
+        }
+
+        .content-title{
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .data-table{
+            margin-top:24px;
+        }
+
+        .data-table table{
+            font-size: 14px;
+            width: 100%;
+            border-collapse:collapse;
+        }
+
+        .data-table th, .data-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        .data-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    
+        .data-table tr:hover {
+            background-color: #ddd;
+        }
+    
+        .data-table button {
+            background: #15f5d34b;
+            border-radius: 5px 5px 5px 5px;
+            width: 93px;
+            height: 27px;
+        }
+
+        .data-table button span{
+            font-weight:800;
+            font-size: 12px;
+            padding: 16px 6px;
+            color: #ff0000;
+        }
+
+        /* 媒体查询 */
+        @media (max-width: 1000px) {
+            .search-bar input {
+                max-width: 200px; /* 缩小搜索框宽度 */
+            }
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <!-- 顶层容器 -->
+    <div class="container">
+
+        <!-- 左侧导航条 -->
+        <div class="sidebar" id="sidebar">
+            <!-- logo -->
+            <div class="sidebar-logo">
+                <span class="sidebar-logo-title1">Dash</span>
+                <span class="sidebar-logo-title2">Stack</span>
+            </div>
+            <!-- 导航菜单 -->
+             <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>Favorites</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+             </div>
+
+             <!-- 分割线 -->
+              <div class="sidebar-divider"></div>
+
+             <!-- 菜单标题 -->
+              <div class="sidebar-title">
+                <span>PAGES</span>
+              </div>
+
+            <!-- 导航菜单 -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Contact</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Invoice</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>UI Elements</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Table</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+             </div>
+
+             <!-- 分割线 -->
+             <div class="sidebar-divider"></div>
+
+             <!-- 导航菜单 -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-user"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+             </div>
+
+        </div>
+
+        <!-- 右侧内容区 -->
+        <div class="main">
+            <!-- 顶部菜单栏 -->
+            <div class="top-navbar">
+                <div class="left-section">
+                    <div id="menu-icon" class="menu-icon">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..."></input>
+                    </div>
+                </div>
+                <div class="right-section">
+                    <div class="notify">
+                        <i class="fas fa-bell"></i>
+                        <span>3</span>
+                    </div>
+                    <div class="language">
+                        <img src="./flag.png" alt="" class="language-img">
+                        <span>English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="profile">
+                        <img src="./man.png" alt="" class="profile-img">
+                        </img>
+                        <div class="profile-name">
+                            <span class="profile-username">John Doe</span>
+                            <span class="profile-role">Role</span>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- 内容区域 -->
+            <div class="content">
+                <div class="content-title">
+                    Order Lists
+                </div>
+
+                <div class="search-param">
+                </div>
+
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>ADDRESS</th>
+                                <th>DATE</th>
+                                <th>TYPE</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td>示例名称1</td>
+                                <td>这是一个描述1</td>
+                                <td><button><span>Completed</span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <script>
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+
+        function checkSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth < 800) {
+                sidebar.classList.add('collapsed');
+            } else {
+                sidebar.classList.remove('collapsed');
+            }
+        }
+    
+        window.addEventListener('resize', checkSidebar);
+        window.addEventListener('load', checkSidebar);
+    </script>
+
+</body>
+</html>
